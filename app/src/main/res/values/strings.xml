@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Everywhere</string>
+    <string name="request_permission">we need camera</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Some Desc</string>
+    <string name="camera_error">Something wrong!</string>
+    <string name="intro_message">Hellow</string>
+    <string name="permission_request">We need video camera</string>
+    <string name="record">Rec</string>
+    <string name="stop">Stop</string>
+</resources>
