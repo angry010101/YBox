@@ -3,8 +3,6 @@ package com.yakymovych.simon.everywhere.di
 import android.app.Application
 import android.content.Context
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.yakymovych.simon.everywhere.BASE_URL
-import com.yakymovych.simon.everywhere.HOSTNAME
 import com.yakymovych.simon.everywhere.MVVMApplication
 import com.yakymovych.simon.everywhere.R
 import com.yakymovych.simon.everywhere.data.RetroService
@@ -64,7 +62,7 @@ open class AppModule {
                     .build()
 
             Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl("http://testapi.doitserver.in.ua/api/")
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
