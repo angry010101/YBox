@@ -18,5 +18,11 @@ class Repository @Inject constructor(private val retroService: RetroService,priv
                 .compose(schedulerProvider.getSchedulersForSingle())
     }
 
+    fun getTasks() :Single<> {
+        return retroService.login(LoginOrRegisterRequest(email,pass,doRegister))
+                .doAfterSuccess { token = it.token ?: token }
+                .compose(schedulerProvider.getSchedulersForSingle())
+    }
+
 
 }

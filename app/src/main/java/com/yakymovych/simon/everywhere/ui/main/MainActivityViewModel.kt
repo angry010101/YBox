@@ -12,8 +12,9 @@ import java.io.IOException
 import java.net.Socket
 
 class MainActivityViewModel(repository: Repository):BaseViewModel(repository) {
-    var socket: Socket? = null
-    lateinit var mediaPlayer: MediaRecorder
+    fun requestsTasks() {
+        return repository.getTasks()
+    }
 
 
 }

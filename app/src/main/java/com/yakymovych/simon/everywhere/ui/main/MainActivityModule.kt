@@ -8,6 +8,6 @@ import javax.inject.Singleton
 
 @Module
 class MainActivityModule {
-//    @Provides
-//    fun provideViewModel(repository: Repository) = MainActivityViewModel(repository)
+    @Provides
+    fun provideViewModel(repository: Repository) = MainActivityViewModel(repository)
 }
