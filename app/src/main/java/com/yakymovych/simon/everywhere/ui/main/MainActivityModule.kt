@@ -1,13 +1,16 @@
 package com.yakymovych.simon.everywhere.ui.main
 
-import com.yakymovych.simon.everywhere.data.Repository
-import com.yakymovych.simon.everywhere.di.ActivityScope
+import com.yakymovych.simon.everywhere.data.RetroService
+import com.yakymovych.simon.everywhere.ui.main.recyclerview.TasksDataSourceFactory
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class MainActivityModule {
     @Provides
-    fun provideViewModel(repository: Repository) = MainActivityViewModel(repository)
+    fun provideTasksDataSourceFactory(retroService: RetroService) = TasksDataSourceFactory(retroService)
+
+    @Provides
+    fun provideViewModel(tasksDataSourceFactory: TasksDataSourceFactory)
+            = MainActivityViewModel(tasksDataSourceFactory)
 }

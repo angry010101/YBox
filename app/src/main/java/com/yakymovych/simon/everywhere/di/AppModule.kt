@@ -19,6 +19,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
+
 @Module
 open class AppModule {
     @Singleton
@@ -32,33 +34,20 @@ open class AppModule {
 
     @Provides
     @Singleton
-    internal open fun provideRetroService(context: Context): RetroService {
+    fun provideRequestInterceptor(): AuthInterceptor {
+        return AuthInterceptor("")
+    }
+
+    @Provides
+    @Singleton
+    internal open fun provideRetroService(context: Context,authInterceptor: AuthInterceptor): RetroService {
         return if (false) { //(BuildConfig.DEBUG) {
             throw NotImplementedError()
             //RetroServiceStub();
         } else {
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            val headerInterceptor = Interceptor() {
-                val original = it.request()
-                if (!original.url().toString().contains("")) {
-                    val request = original.newBuilder()
-                            .header("Content-Type", "application/json")
-                            .method(original.method(), original.body())
-                            .build()
-
-
-                    it.proceed(request)
-                } else {
-
-                    it.proceed(original)
-                }
-
-            }
 
             val client = OkHttpClient.Builder()
-                    .addInterceptor(loggingInterceptor)
-                    .addInterceptor(headerInterceptor)
+                    .addInterceptor(authInterceptor)
                     .build()
 
             Retrofit.Builder()

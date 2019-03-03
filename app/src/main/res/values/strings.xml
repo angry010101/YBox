@@ -13,4 +13,8 @@
     <string name="login">Log in</string>
     <string name="e_mail">email</string>
     <string name="my_tasks">My Tasks</string>
+    <string name="action_sort_id">Id</string>
+    <string name="action_sort_dueby">Due by</string>
+    <string name="action_sort_title">Title</string>
+    <string name="action_sort_priority">Priority</string>
 </resources>

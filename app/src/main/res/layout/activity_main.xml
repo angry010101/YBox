@@ -13,20 +13,20 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary">
 
-            <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
                 <ImageView
-                    android:visibility="visible"
                     android:id="@+id/button_remainder"
-                    android:padding="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_popup_reminder"
-                    android:layout_gravity="left"/>
+                    android:layout_gravity="start"
+
+                    android:tint="@android:color/white"
+                    android:src="@drawable/ic_notifications_black_36dp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/toolbarTitleTv"
@@ -38,20 +38,22 @@
 
 
                 <ImageView
-                    android:visibility="visible"
                     android:id="@+id/button_sort"
-                    android:src="@android:drawable/ic_menu_sort_by_size"
-                    android:padding="8dp"
                     android:layout_width="wrap_content"
+                    android:onClick="openMenu"
+                    android:tint="@android:color/white"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"/>
+                    android:layout_gravity="end"
+                    android:paddingRight="16dp"
+                    android:src="@drawable/ic_sort_black_36dp"
+                    android:visibility="visible" />
 
 
             </androidx.appcompat.widget.Toolbar>
 
+
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!--<include layout="@layout/main_content" />-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -59,13 +61,31 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
+            android:tint="@android:color/white"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:src="@android:drawable/ic_menu_add"
+            android:src="@drawable/ic_add_black_48dp"
+
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tasks_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

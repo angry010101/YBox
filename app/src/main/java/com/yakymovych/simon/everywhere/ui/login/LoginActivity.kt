@@ -12,8 +12,6 @@ import com.yakymovych.simon.everywhere.ui.main.MainActivity
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(){
-    override fun getBaseViewModel(): BaseViewModel = loginViewModel
-
     @Inject
     lateinit var loginViewModel: LoginViewModel
 

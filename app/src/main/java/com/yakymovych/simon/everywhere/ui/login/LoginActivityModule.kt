@@ -1,6 +1,6 @@
 package com.yakymovych.simon.everywhere.ui.login
 
-import com.yakymovych.simon.everywhere.data.Repository
+import com.yakymovych.simon.everywhere.data.repository.Repository
 import dagger.Module
 import dagger.Provides
 

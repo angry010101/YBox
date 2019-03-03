@@ -6,13 +6,13 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.CompoundButton
-import com.yakymovych.simon.everywhere.data.Repository
+import com.yakymovych.simon.everywhere.data.repository.Repository
 import com.yakymovych.simon.everywhere.ui.BaseViewModel
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 import java.io.IOException
 
-class LoginViewModel(repository: Repository) : BaseViewModel(repository){
+class LoginViewModel(var repository: Repository) : BaseViewModel(){
     var editTextEmailValue = "sample@site.com"
     var editTextPasswordValue = "0123456"
     var doRegister = false
