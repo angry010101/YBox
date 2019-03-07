@@ -23,6 +23,8 @@ import androidx.appcompat.widget.PopupMenu
 
 
 class MainActivity : BaseActivity(),PopupMenu.OnMenuItemClickListener {
+    override fun getBaseViewModel(): BaseViewModel = viewModel
+
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         item?.setChecked(true)
         when (item?.itemId) {

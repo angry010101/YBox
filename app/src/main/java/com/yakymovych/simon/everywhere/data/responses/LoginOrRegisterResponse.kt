@@ -9,4 +9,8 @@ class LoginOrRegisterResponse{
     @SerializedName("token")
     var token: String? = ""
 
+
 }
+
+//TODO
+//неправильный пароль краш

@@ -17,11 +17,17 @@ class Repository @Inject constructor(val retroService: RetroService,
                                      val authInterceptor: AuthInterceptor) : BaseAuthRepository(authInterceptor){
 
 
-    fun login(email: String, pass: String, doRegister: Boolean): Single<LoginOrRegisterResponse>{
-        return retroService.login(LoginOrRegisterRequest(email,pass,doRegister))
+    fun login(email: String, pass: String): Single<LoginOrRegisterResponse>{
+        return retroService.login(LoginOrRegisterRequest(email,pass))
                 .doAfterSuccess { token = it.token ?: token }
                 .compose(schedulerProvider.getSchedulersForSingle())
     }
 
 
+
+    fun register(email: String, pass: String): Single<LoginOrRegisterResponse>{
+        return retroService.register(LoginOrRegisterRequest(email,pass))
+                .doAfterSuccess { token = it.token ?: token }
+                .compose(schedulerProvider.getSchedulersForSingle())
+    }
 }

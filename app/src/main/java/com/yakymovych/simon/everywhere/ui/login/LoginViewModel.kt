@@ -2,20 +2,24 @@ package com.yakymovych.simon.everywhere.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.CompoundButton
+import com.google.gson.Gson
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
+import com.yakymovych.simon.everywhere.data.SignInError
 import com.yakymovych.simon.everywhere.data.repository.Repository
 import com.yakymovych.simon.everywhere.ui.BaseViewModel
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
-import java.io.IOException
 
 class LoginViewModel(var repository: Repository) : BaseViewModel(){
     var editTextEmailValue = "sample@site.com"
     var editTextPasswordValue = "0123456"
-    var doRegister = false
+    var doRegister = MutableLiveData<Boolean>(false)
     var goToMainActivity = MutableLiveData<Boolean>()
 
     fun getUserMailEditTextWatcher(): TextWatcher {
@@ -33,7 +37,8 @@ class LoginViewModel(var repository: Repository) : BaseViewModel(){
     }
 
     fun onLoginRegisterSwitchChange(buttonView: CompoundButton, isChecked: Boolean){
-        doRegister = isChecked
+        doRegister.value = isChecked
+
     }
 
     fun getUserPassEditTextWatcher(): TextWatcher {
@@ -50,26 +55,63 @@ class LoginViewModel(var repository: Repository) : BaseViewModel(){
         }
     }
 
+
+    private fun signIn(view: View){
+        repository.login(editTextEmailValue, editTextPasswordValue)
+                .subscribeBy(
+                        onSuccess = {
+                            goToMainActivity.value = true
+
+                            Timber.d("onLogInClick.onSuccess")
+                        },
+                        onError = { throwable ->
+                            Timber.d("onLogInClick.onError")
+                            (view as Button).isEnabled = true
+
+                            run {
+                                if (throwable is HttpException) {
+                                    val e = throwable as HttpException
+                                    val json = e.response().errorBody().string()
+                                    val error = Gson().fromJson(json,SignInError::class.java)
+                                    val msg = error?.fields?.email ?: ""
+                                    toastMessage.value = "ERROR HAPPENED: " + error.message + " " + msg
+                                }
+                                else
+                                    toastMessage.value = throwable.message
+                            }
+                        })
+    }
+
+    private fun signUp(view: Button) {
+        repository.register(editTextEmailValue, editTextPasswordValue)
+                .subscribeBy(
+                        onSuccess = {
+                            goToMainActivity.value = true
+
+                            Timber.d("onLogInClick.onSuccess")
+                        },
+                        onError = { throwable ->
+                            Timber.d("onLogInClick.onError")
+                            (view as Button).isEnabled = true
+
+                            run {
+                                if (throwable is HttpException) {
+                                    val e = throwable as HttpException
+                                    val json = e.response().errorBody().string()
+                                    val error = Gson().fromJson(json,SignInError::class.java)
+                                    toastMessage.value = "ERROR HAPPENED: " + error.message + " " + error.fields.email
+                                }
+                                else
+                                    toastMessage.value = throwable.message
+                            }
+                        })
+    }
     fun onLogInClick(view: View) {
         (view as Button).isEnabled = false
         if ((validateEmail() && validatePass())) {
             Timber.d("LOGINING: " + editTextEmailValue + " " + editTextPasswordValue)
-            repository.login(editTextEmailValue, editTextPasswordValue,doRegister)
-                    .subscribeBy(
-                            onSuccess = {
-                                Timber.d("onLogInClick.onSuccess")
-                                goToMainActivity.value = true
-                            },
-                            onError = { throwable ->
-                                Timber.d("onLogInClick.onError")
-                                (view as Button).isEnabled = true
-                                run {
-                                    if (throwable is IOException)
-                                        toastMessage.value = "Error signing in"
-                                    else
-                                        toastMessage.value = throwable.message
-                                }
-                            })
+            if (doRegister.value!!) signUp(view)
+            else signIn(view)
         }
         else {
             view.isEnabled = true
@@ -78,23 +120,21 @@ class LoginViewModel(var repository: Repository) : BaseViewModel(){
 
 
     private fun validateEmail(): Boolean {
-//        return if (!TextUtils.isEmpty(editTextUserMailValue) && Patterns.EMAIL_ADDRESS.matcher(editTextUserMailValue).matches()) {
-//            true;
-//        } else {
-//            toastMessage.value = "Wrong email"
-//            false
-//        }
-        return true
+        return if (!TextUtils.isEmpty(editTextEmailValue) && Patterns.EMAIL_ADDRESS.matcher(editTextEmailValue).matches()) {
+            true;
+        } else {
+            toastMessage.value = "Wrong email address"
+            false
+        }
     }
 
     private fun validatePass(): Boolean {
-//        return if (editTextUserPassValue.length > 0) {
-//            true
-//        } else {
-//            toastMessage.value = "Wrong password"
-//            false
-//        }
-        return true
+        return if (editTextPasswordValue.length > 0) {
+            true
+        } else {
+            toastMessage.value = "Wrong password"
+            false
+        }
     }
 
 

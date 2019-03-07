@@ -10,6 +10,7 @@ interface RetroService {
     companion object {
         const val LOGIN_URL = "auth"
         const val GET_TASKS_URL = "tasks"
+        const val USERS_URL = "users"
     }
 
     @Headers("Content-Type: application/json")
@@ -19,5 +20,9 @@ interface RetroService {
     @GET(GET_TASKS_URL)
 //    Call<List<Repo>> listRepos(@Path("user") String user);
     fun getTasks(@Query("page") page: Int, @Query("sort") sort: String): Single<GetTasksResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST(USERS_URL)
+    fun register(@Body loginOrRegisterRequest: LoginOrRegisterRequest): Single<LoginOrRegisterResponse>
 
 }

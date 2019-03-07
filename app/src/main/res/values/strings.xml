@@ -11,6 +11,7 @@
     <string name="sign_in">Sign in</string>
     <string name="login_or_register">Login/ Register</string>
     <string name="login">Log in</string>
+    <string name="signup">Sign up</string>
     <string name="e_mail">email</string>
     <string name="my_tasks">My Tasks</string>
     <string name="action_sort_id">Id</string>

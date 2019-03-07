@@ -12,6 +12,8 @@ import com.yakymovych.simon.everywhere.ui.main.MainActivity
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(){
+    override fun getBaseViewModel(): BaseViewModel = loginViewModel
+
     @Inject
     lateinit var loginViewModel: LoginViewModel
 
@@ -20,7 +22,7 @@ class LoginActivity : BaseActivity(){
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = loginViewModel
-
+        binding.setLifecycleOwner(this)
 
         loginViewModel.goToMainActivity.observe(this, Observer {
             it?.let { if(it) startMain() }
