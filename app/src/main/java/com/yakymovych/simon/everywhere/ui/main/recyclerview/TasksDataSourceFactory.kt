@@ -21,7 +21,7 @@ class TasksDataSourceFactory
     override fun create(): DataSource<Int, Task> {
         Timber.d { "CREATING DATASOURCE" }
         val ds = TasksDataSource(retroService)
-        ds.sortType = sort.toString()
+        ds.sortType = sort.toString() + " asc"
         dataSource.postValue(ds)
         return ds
     }

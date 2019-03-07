@@ -13,9 +13,12 @@ import com.github.ajalt.timberkt.Timber
 import com.yakymovych.simon.everywhere.data.Sort
 import com.yakymovych.simon.everywhere.ui.main.recyclerview.TasksDataSource
 
+import com.yakymovych.simon.everywhere.R
+
 
 class MainActivityViewModel(var tasksFactory: TasksDataSourceFactory):BaseViewModel() {
     var tasks: LiveData<PagedList<Task>>
+    var sort: Int  = R.id.action_sort_id
     var isResfreshing = MutableLiveData<Boolean>()
     var pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(true)
@@ -37,8 +40,9 @@ class MainActivityViewModel(var tasksFactory: TasksDataSourceFactory):BaseViewMo
         refreshTasks()
     }
 
-    fun selectSort(sort: Sort){
+    fun selectSort(sort: Sort,resourse: Int){
         Timber.d { "SORT SELECTED: " + sort.name }
+        this.sort = resourse
         tasksFactory.sort = sort
         refreshTasks()
     }

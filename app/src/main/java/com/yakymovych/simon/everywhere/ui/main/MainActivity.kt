@@ -1,10 +1,8 @@
 package com.yakymovych.simon.everywhere.ui.main
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.ajalt.timberkt.Timber
@@ -13,9 +11,7 @@ import com.yakymovych.simon.everywhere.ui.BaseActivity
 import com.yakymovych.simon.everywhere.ui.BaseViewModel
 import com.yakymovych.simon.everywhere.ui.main.recyclerview.TasksAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.main_content.*
 import javax.inject.Inject
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import com.yakymovych.simon.everywhere.data.Sort
 import android.view.View
 
@@ -25,32 +21,35 @@ import androidx.appcompat.widget.PopupMenu
 class MainActivity : BaseActivity(),PopupMenu.OnMenuItemClickListener {
     override fun getBaseViewModel(): BaseViewModel = viewModel
 
+
+
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         item?.setChecked(true)
+
         when (item?.itemId) {
             R.id.action_sort_dueby -> {
-                viewModel.selectSort(Sort.DUEBY)
+                viewModel.selectSort(Sort.DUEBY,item.itemId)
                 return true
             }
             R.id.action_sort_priority -> {
-                viewModel.selectSort(Sort.PRIORITY)
+                viewModel.selectSort(Sort.PRIORITY,item.itemId)
                 return true
             }
             R.id.action_sort_title -> {
-                viewModel.selectSort(Sort.TITLE)
+                viewModel.selectSort(Sort.TITLE,item.itemId)
                 return true
             }
             R.id.action_sort_id -> {
-                viewModel.selectSort(Sort.ID)
+                viewModel.selectSort(Sort.ID,item.itemId)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
     }
 
+
     @Inject
     lateinit var viewModel: MainActivityViewModel
-
 
 
     fun openMenu(v: View){
@@ -58,7 +57,12 @@ class MainActivity : BaseActivity(),PopupMenu.OnMenuItemClickListener {
         val inflater = popup.getMenuInflater()
         popup.setOnMenuItemClickListener(this);
         inflater.inflate(R.menu.menu_main, popup.getMenu())
+        setSortSelected(popup)
         popup.show()
+    }
+
+    private fun setSortSelected(popup: PopupMenu) {
+        popup.menu.findItem(viewModel.sort)?.setChecked(true)
     }
 
 
