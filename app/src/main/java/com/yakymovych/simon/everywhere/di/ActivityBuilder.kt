@@ -1,8 +1,6 @@
 package com.yakymovych.simon.everywhere.di
 
 
-import com.yakymovych.simon.everywhere.ui.login.LoginActivity
-import com.yakymovych.simon.everywhere.ui.login.LoginActivityModule
 import com.yakymovych.simon.everywhere.ui.main.MainActivity
 import com.yakymovych.simon.everywhere.ui.main.MainActivityModule
 import dagger.Module
@@ -15,8 +13,6 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = arrayOf(MainActivityModule::class))
     abstract fun bindMainActivity(): MainActivity
 
-    @ContributesAndroidInjector(modules = arrayOf(LoginActivityModule::class))
-    abstract fun bindLoginActivity(): LoginActivity
 }
 
 
